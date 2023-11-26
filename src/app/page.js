@@ -60,15 +60,10 @@ export default function Home() {
 
 <div className="mt-28" >
 <Titulo>Jogos em alta </Titulo>
-    <section className="flex flex-wrap gap-4 p-4">
-  
-
-  
+    <section className="flex flex-wrap gap-9 p-4">
+   
       {games && games.map(game => <Card key={game.id} game={game} />)}
  
-
-
-
     </section>
  
     <Titulo>Novidade</Titulo>
