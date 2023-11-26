@@ -1,14 +1,35 @@
+"use client"
+
 import Card from "@/components/cards";
 import Titulo from "@/components/title";
 import Painel from "@/components/painel";
-import "./animation.css"
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 
 export default function Home() {
+
+ 
+    const [games, setGames] = useState([]);
+
+    useEffect(() => {
+      const apiKey = '5f14f3e9c0894a8bbd6b9357f43cc377';
+      const apiUrl = `https://api.rawg.io/api/games?key=${apiKey}&ordering=-rating`;
+
+      axios.get(apiUrl)
+        .then(response => {
+          setGames(response.data.results);
+        })
+        .catch(error => {
+          console.error('Erro ao obter dados da API:', error);
+        });
+    }, []);
+
+
   return (
     <main className="flex min-h-screen flex-col">
        <nav className = "flex gap-4 bg-slate-700 w-full items-center justify-between px-50 h-24" >
-      <h1 className='m-3 flex items-center gap-2 text-4xl text-neutral-200 font-bold uppercase' > 
+      <h1 className='m-3 flex items-center gap-2 text-4xl  text-neutral-200 font-bold uppercase' > 
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
       <path d="M16.5 7.5h-9v9h9v-9z" />
      <path fill-rule="evenodd" d="M8.25 2.25A.75.75 0 019 3v.75h2.25V3a.75.75 0 011.5 0v.75H15V3a.75.75 0 011.5 0v.75h.75a3 3 0 013 3v.75H21A.75.75 0 0121 9h-.75v2.25H21a.75.75 0 010 1.5h-.75V15H21a.75.75 0 010 1.5h-.75v.75a3 3 0 01-3 3h-.75V21a.75.75 0 01-1.5 0v-.75h-2.25V21a.75.75 0 01-1.5 0v-.75H9V21a.75.75 0 01-1.5 0v-.75h-.75a3 3 0 01-3-3v-.75H3A.75.75 0 013 15h.75v-2.25H3a.75.75 0 010-1.5h.75V9H3a.75.75 0 010-1.5h.75v-.75a3 3 0 013-3h.75V3a.75.75 0 01.75-.75zM6 6.75A.75.75 0 016.75 6h10.5a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V6.75z" clip-rule="evenodd" />
@@ -37,15 +58,17 @@ export default function Home() {
       </section>
 
 
-<div className="mt-24" >
+<div className="mt-28" >
 <Titulo>Jogos em alta </Titulo>
     <section className="flex flex-wrap gap-4 p-4">
-    <Card titulo = "StreetFight 6" nota={10.0} imgs ={"https://artcetera.art/wp-content/uploads/2023/03/jogos-mais-esperados-de-2023-950x500.jpg"}/>
-    <Card titulo = "Zelda" nota = {9.8} imgs={"https://s2-techtudo.glbimg.com/bFZoPLP_moYz4ZQfMy7nzSWkU18=/0x0:695x434/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2021/I/B/iDPi3ZTGysr35Lr6SBAQ/2014-09-26-legend-of-zelda-aniversary.jpg"}/>
-    <Card titulo={"Tekken 7"} nota={7.0} imgs={"https://cdn.awsli.com.br/800x800/1610/1610163/produto/177701600/poster-tekken-7-a-ab89feec.jpg"} />
-    <Card titulo={"Elden Ring"} nota={8.7} imgs={"https://i.ytimg.com/vi/JldMvQMO_5U/maxresdefault.jpg"} />
-    <Card titulo={"Blasphomeus"} nota={9.5} imgs={"https://cdn1.epicgames.com/offer/eddb735dde6b47cda8193f2643cff886/EGS_Blasphemous_TheGameKitchen_S3_2560x1440-f1a83630b91b3f128e8f9dd58f3f8eed"} />
-    <Card titulo={"Mario Wonder"} nota={8.2} imgs={"https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_1240/b_white/f_auto/q_auto/ncom/software/switch/70010000068688/a13441a9532b1c9e90f657ee1c67255de073707543ff6735ceb57b472faec691"} />
+  
+
+  
+      {games && games.map(game => <Card key={game.id} game={game} />)}
+ 
+
+
+
     </section>
  
     <Titulo>Novidade</Titulo>
